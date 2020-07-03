@@ -1,6 +1,10 @@
 from tkinter import *
 import tkinter.ttk as ttk
 from tkinter import colorchooser
+from tkinter import filedialog
+from tkinter import messagebox
+import PIL
+from PIL import Image,ImageDraw,ImageTk,ImageGrab
 
 root = Tk()
 root.title("Painter")
@@ -41,7 +45,19 @@ def clear_screen():
     canvas.delete(ALL)
 
 def save_image():
-    pass
+    result = filedialog.asksaveasfilename(initialdir='c:/Users/Shimul/Documents/Train/Python/Painter/images',filetypes=(("png files","*.png"),("all files","*.*")))
+    
+    if not result.endswith(".png"):
+        result = result + ".png"
+    
+    if result:
+        x = root.winfo_rootx() + canvas.winfo_x()
+        y = root.winfo_rooty() + canvas.winfo_y()
+        
+        x1 = x+canvas.winfo_width()
+        y1 = y+canvas.winfo_height()
+        ImageGrab.grab().crop((x,y,x1,y1)).save(result)
+        messagebox.showinfo("Success","Your image has been saved")
 
 w=600
 h=400
