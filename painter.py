@@ -6,6 +6,7 @@ root = Tk()
 root.title("Painter")
 root.geometry("800x800")
 brush_color = "black"
+canvas_color = "white"
 def paint(e):
     brushSize= int(myslider.get())
     brushColor=brush_color
@@ -31,11 +32,20 @@ def change_brush_color():
     #return brush_color
 
 def changeCanvasColor():
+    global canvas_color
+    canvas_color="white"
+    canvas_color = colorchooser.askcolor(color=canvas_color)[1]
+    canvas.config(bg=canvas_color)
+    
+def clear_screen():
+    canvas.delete(ALL)
+
+def save_image():
     pass
 
 w=600
 h=400
-canvas = Canvas(root,width=w,height=h,bg="white")
+canvas = Canvas(root,width=w,height=h,bg=canvas_color)
 canvas.pack(pady=20)
 
 canvas.bind('<B1-Motion>',paint)
@@ -72,7 +82,16 @@ brushColorFrame.grid(row=0,column=2,padx=20)
 brushColorButton = Button(brushColorFrame,text="Brush color",command=change_brush_color)
 brushColorButton.pack(pady=10,padx=10)
 
-canvasColorButton = Button(brushColorFrame,text="Canvas color",command="changeCanvasColor")
+canvasColorButton = Button(brushColorFrame,text="Canvas color",command=changeCanvasColor)
 canvasColorButton.pack(pady=10,padx=10)
+
+canvasOptionsFrame = LabelFrame(brushOptionsFrame,text="Canvas options")
+canvasOptionsFrame.grid(row=0,column=3,padx=20)
+
+clearScreenButton = Button(canvasOptionsFrame,text="Clear screen",command=clear_screen)
+clearScreenButton.pack(padx=10,pady=10)
+
+saveImageButton = Button(canvasOptionsFrame,text="Save Image",command=save_image)
+saveImageButton.pack(padx=10,pady=10)
 
 root.mainloop()
