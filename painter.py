@@ -1,13 +1,14 @@
 from tkinter import *
 import tkinter.ttk as ttk
+from tkinter import colorchooser
 
 root = Tk()
 root.title("Painter")
 root.geometry("800x800")
-
+brush_color = "black"
 def paint(e):
     brushSize= int(myslider.get())
-    brushColor="blue"
+    brushColor=brush_color
     #brush types: ROUND, ROUND, PROJECTING
     brushType=brush_type.get()
     
@@ -22,6 +23,15 @@ def paint(e):
 
 def change_brush_size(data):
     sliderLabel.config(text=int(myslider.get()))
+    
+def change_brush_color():
+    global brush_color
+    brush_color="black"
+    brush_color = colorchooser.askcolor(color=brush_color)[1]
+    #return brush_color
+
+def changeCanvasColor():
+    pass
 
 w=600
 h=400
@@ -55,5 +65,14 @@ brushTypeDiamond = Radiobutton(brushTypeFrame,text="Diamond",variable=brush_type
 brushTypeRound.pack(anchor=W)
 brushTypeSlash.pack(anchor=W)
 brushTypeDiamond.pack(anchor=W)
+
+brushColorFrame = LabelFrame(brushOptionsFrame,text="Change Color")
+brushColorFrame.grid(row=0,column=2,padx=20)
+
+brushColorButton = Button(brushColorFrame,text="Brush color",command=change_brush_color)
+brushColorButton.pack(pady=10,padx=10)
+
+canvasColorButton = Button(brushColorFrame,text="Canvas color",command="changeCanvasColor")
+canvasColorButton.pack(pady=10,padx=10)
 
 root.mainloop()
